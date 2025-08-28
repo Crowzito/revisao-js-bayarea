@@ -17,7 +17,21 @@ async function fetchMultipleData() {
   // Chame simulateAPICall 3 vezes e retorne um array com os resultados
   // Trate os erros adequadamente
 
-  
+  const promises = [
+    simulateAPICall(false),
+    simulateAPICall(true),
+    simulateAPICall(false),
+  ];
+
+  const resultados = await Promise.allSettled(promises);
+
+  return resultados.map((resultado) => {
+    if (resultado.status === "fulfilled") {
+      return resultado.value;
+    } else {
+      return `Erro: ${resultado.reason}`;
+    }
+  });
 }
 
 // Teste:
